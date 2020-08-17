@@ -51,7 +51,8 @@ async function randomPokemon(message, client) {
 
         message.channel.send(`${pokeName.toUpperCase()}`, {files: [`https://images.alexonsager.net/pokemon/fused/${pokemon1}/${pokemon1}.${pokemon2}.png`]})
     } catch (err) {
-        console.log(err);
+        console.log(err.statusCode);
+        console.log(`Não achei ${pokemon1} + ${pokemon2}`)
         message.channel.send("PokeAPI morreu :(")
     }
 
