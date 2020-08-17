@@ -1,5 +1,6 @@
 
 import { config } from './config.js';
+import bent from 'bent';
 const { emoji } = config;
 function clearChannel(message) {
     //Check the user has permission and that it's on dev channel
@@ -37,4 +38,23 @@ function clearChannel(message) {
     }
 }
 
-export { clearChannel }
+async function randomPokemon(message, client) {
+    const pokemon1 = Math.round(Math.random() * 151);
+    const pokemon2 = Math.round(Math.random() * 151);
+
+    const getJSON = bent('json')
+    try {
+
+        let obj1 = await getJSON(`https://pokeapi.co/api/v2/pokemon/${pokemon1}`)
+        let obj2 = await getJSON(`https://pokeapi.co/api/v2/pokemon/${pokemon2}`)
+        const pokeName = obj2.name.slice(0, obj2.name.length/2 + 1) + obj1.name.slice(obj1.name.length/2, obj1.name.length)
+
+        message.channel.send(`${pokeName.toUpperCase()}`, {files: [`https://images.alexonsager.net/pokemon/fused/${pokemon1}/${pokemon1}.${pokemon2}.png`]})
+    } catch (err) {
+        console.log(err);
+        message.channel.send("PokeAPI morreu :(")
+    }
+
+}
+
+export { clearChannel, randomPokemon }
