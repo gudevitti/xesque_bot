@@ -2,7 +2,7 @@
 import * as Discord from 'discord.js';
 import { clearChannel, randomPokemon } from './functions.js';
 const client = new Discord.Client();
-import { config } from './config.js';
+import { config } from '../config.js';
 const { token, prefix } = config;
 
 client.once('ready', () => {

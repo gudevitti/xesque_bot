@@ -1,7 +1,6 @@
 
-import { config } from './config.js';
+import { emoji } from './emoji.js';
 import bent from 'bent';
-const { emoji } = config;
 function clearChannel(message) {
     //Check the user has permission and that it's on dev channel
     if (message.member.hasPermission("ADMINISTRATOR") && message.channel.name === 'dev') {
