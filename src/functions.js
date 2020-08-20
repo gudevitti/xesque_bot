@@ -38,9 +38,9 @@ function clearChannel(message) {
     }
 }
 
-async function randomPokemon(message, client) {
-    const pokemon1 = Math.round(Math.random() * 151);
-    const pokemon2 = Math.round(Math.random() * 151);
+async function randomPokemon(message) {
+    const pokemon1 = Math.round(Math.random() * 150) + 1;
+    const pokemon2 = Math.round(Math.random() * 150) + 1;
 
     const getJSON = bent('json')
     try {

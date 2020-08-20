@@ -10,18 +10,11 @@ client.once('ready', () => {
 });
 
 client.on('message', message => {
-    message.channel.messages
     if (message.content[0] === prefix) {
         const command = message.content.substr(1)
         switch (command) {
             case 'pokemon': randomPokemon(message, client); break;
-            case 'clear': clearChannel(message);
-                break;
-            case 'channels':
-                message.channel.send(message.guild.channels.cache.map((channel) => {
-                    return `\nCANAL: ${channel.name}\nID: ${channel.id}\nTIPO: ${channel.type}`
-                }))
-                break;
+            case 'clear': clearChannel(message); break;
         }
     }
 });

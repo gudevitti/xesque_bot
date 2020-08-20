@@ -1,4 +1,4 @@
 node_modules
-bot/src/config.js
 token.txt
 package-lock.json
+src/config.js
