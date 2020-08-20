@@ -37,9 +37,11 @@ function clearChannel(message) {
     }
 }
 
-async function randomPokemon(message) {
-    const pokemon1 = Math.round(Math.random() * 150) + 1;
-    const pokemon2 = Math.round(Math.random() * 150) + 1;
+async function randomPokemon(message, param1, param2) {
+
+
+    const pokemon1 = param1 ? param1 : Math.round(Math.random() * 150) + 1;
+    const pokemon2 = param2 ? param2 : Math.round(Math.random() * 150) + 1;
 
     const getJSON = bent('json')
     try {
@@ -52,7 +54,7 @@ async function randomPokemon(message) {
     } catch (err) {
         console.log(err.statusCode);
         console.log(`Não achei ${pokemon1} + ${pokemon2}`)
-        message.channel.send("PokeAPI morreu :(")
+        message.channel.send("Deu " + err.statusCode);
     }
 
 }

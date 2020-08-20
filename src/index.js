@@ -11,9 +11,10 @@ client.once('ready', () => {
 
 client.on('message', message => {
     if (message.content[0] === prefix) {
-        const command = message.content.substr(1)
-        switch (command) {
-            case 'pokemon': randomPokemon(message, client); break;
+        const [command, param1, param2] = message.content.slice(1).split(' ');
+        console.log(command,param1,param2);
+        switch (command.toLowerCase()) {
+            case 'pokemon': randomPokemon(message, param1, param2); break;
             case 'clear': clearChannel(message); break;
         }
     }
