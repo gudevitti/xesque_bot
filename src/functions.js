@@ -1,6 +1,12 @@
 
-import { emoji } from './emoji.js';
 import bent from 'bent';
+import { emoji } from './emoji.js';
+import { config } from '../config.js';
+
+const getJSON = bent('json');
+
+const { lolApi } = config;
+
 function clearChannel(message) {
     //Check the user has permission and that it's on dev channel
     if (message.member.hasPermission("ADMINISTRATOR") && message.channel.name === 'dev') {
@@ -39,11 +45,9 @@ function clearChannel(message) {
 
 async function randomPokemon(message, param1, param2) {
 
-
     const pokemon1 = param1 ? param1 : Math.round(Math.random() * 150) + 1;
     const pokemon2 = param2 ? param2 : Math.round(Math.random() * 150) + 1;
 
-    const getJSON = bent('json')
     try {
 
         let obj1 = await getJSON(`https://pokeapi.co/api/v2/pokemon/${pokemon1}`)
@@ -59,4 +63,29 @@ async function randomPokemon(message, param1, param2) {
 
 }
 
-export { clearChannel, randomPokemon }
+function findChampionById(id, champions){
+    return Object.entries(champions.data).find(c => c[1].key == id)[1]
+}
+
+async function getLolMastery(message, param1, param2) {
+    const summonerName = encodeURI(param1);
+    try {
+        const champions = await getJSON('http://ddragon.leagueoflegends.com/cdn/10.22.1/data/pt_BR/champion.json');
+        const summoner = await getJSON(`https://br1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${lolApi}`)
+        const mastery = await getJSON(`https://br1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${summoner.id}?api_key=${lolApi}`)
+
+        let messageBlock = `Maestrias ${param2} sem baú de ${param1}`
+
+        mastery.map((champion)=>{
+            if(!champion.chestGranted && param2 == champion.championLevel){
+                messageBlock = messageBlock + `\n ${findChampionById(champion.championId, champions).id}`;
+            }
+        })
+
+        message.channel.send(messageBlock);
+    } catch (err) {
+        message.channel.send(`${err.statusCode} - ${err}`);
+    }
+}
+
+export { clearChannel, randomPokemon, getLolMastery }
